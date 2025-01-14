@@ -3,13 +3,117 @@ title: "Instructing Data Visualization"
 author: "olex2148"
 format: html
 editor: visual
+---in
 ---
 
 ## Data Visualization
 
-You can add options to executable code like this
+```{r setup, warning=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(styler)
+
+post_meal_data <- read_csv2(here::here("data/post-meal-insulin.csv"))
+```
 
 ```{r}
-#| echo: false
-2 * 2
+
+ggplot(post_meal_data, aes(x = BMI))
+```
+
+```{r bmi-histogram}
+
+ggplot(post_meal_data, aes(x = BMI)) +
+  geom_histogram()
+```
+
+```{r bmi-histogram}
+#| fig-cap: "Distribution of BMI."
+#| label: fig-bmi-histo
+ggplot(post_meal_data, aes(x = BMI)) +
+  geom_histogram()
+
+```
+
+```{r solution-discrete-variables}
+#| eval: false
+#| code-fold: true
+#| code-summary: '**Click for the solution**. Only click if you are struggling or are out of time.'
+#| fig-cap: "___"
+#| label: fig-glykemi-bar
+ggplot(post_meal_data, aes(x = glykemi)) +
+  geom_bar()
+```
+
+```{r}
+post_meal_data |>
+  ggplot(aes(x = Group, fill = glykemi)) +
+  geom_bar()
+```
+
+```{r}
+post_meal_data |>
+  ggplot(aes(x = Group, fill = as.character(glykemi))) +
+  geom_bar()
+```
+
+```{r}
+post_meal_data |>
+  ggplot(aes(x = Group, fill = as.character(glykemi))) +
+  geom_bar(position = position_dodge())
+```
+
+```{r side-by-side-figs}
+#| label: fig-bmi-glycemia
+#| fig-cap: "BMI and glycemia, side by side."
+#| fig-subcap:
+#|   - "Distribution of BMI."
+#|   - "Number of those with glycemia."
+#| layout-ncol: 2
+ggplot(post_meal_data, aes(x = BMI)) +
+  geom_histogram()
+
+ggplot(post_meal_data, aes(x = glykemi)) +
+  geom_bar()
+
+```
+
+```{r}
+# Object names
+DayOne
+T <- FALSE
+c <- 9
+
+# Spacing
+x[,1]
+x[ ,1]
+mean (x, na.rm = TRUE)
+mean( x, na.rm = TRUE )
+height<-feet*12+inches
+df $ z
+x <- 1 : 10
+
+# Tabs
+if (x == 1) {
+y <- 2
+}
+```
+
+```{r}
+ggplot(post_meal_data, aes(x = BMI, y = auc_pg)) +
+  geom_point()
+```
+
+```{r}
+ggplot(post_meal_data, aes(x = BMI, y = auc_pg)) +
+  geom_point() +
+  geom_smooth()
+```
+
+```{r}
+#| fig-cap: "Scatterplot of BMI and the area under the curve for glucose."
+#| label: fig-bmi-auc-pg
+ggplot(post_meal_data, aes(x = BMI, y = auc_pg)) +
+  geom_point() +
+  geom_smooth()
 ```
